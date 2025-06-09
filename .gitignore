@@ -1,0 +1,42 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# SQLite database
+*.sqlite3
+*.db
+
+# Virtual environment
+venv/
+.env
+.env.*
+
+# macOS system files
+.DS_Store
+
+# VS Code settings
+.vscode/
+
+# Log files
+*.log
+
+# Python test cache
+.cache/
+.pytest_cache/
+
+# Coverage reports
+htmlcov/
+.coverage
+coverage.xml
+
+# FastAPI static/docs cache
+*.pid
+
+# Frontend build artifacts (ถ้ามีในอนาคต)
+dist/
+node_modules/
+
+# Backup files
+*.bak
+*.swp
