@@ -10,7 +10,7 @@ source venv/bin/activate  # macOS/Linux
 venv\Scripts\activate   # Windows
 ```
 
-2 ตอดตั้ง requirements
+2 ติดตั้ง requirements
 ```
 pip install -r requirements.txt
 ```
