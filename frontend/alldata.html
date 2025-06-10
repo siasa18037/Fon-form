@@ -7,7 +7,7 @@
 </head>
 <body class="bg-light">
   <div class="container mt-5">
-    <h2 class="mb-4">All data</h2>
+    <h2 class="mb-4">รายชื่อผู้ป่วย</h2>
     <table class="table table-bordered table-striped">
       <thead class="table-dark">
         <tr>
@@ -18,36 +18,53 @@
           <th>ส่วนสูง</th>
           <th>แพ้ยา</th>
           <th>โรคประจำตัว</th>
+          <th>ลบ</th>
         </tr>
       </thead>
       <tbody id="patientTableBody"></tbody>
     </table>
 
     <div class="text-end">
-      <a href="index.html" class="btn btn-link">เพิ่มผู้ป่วยใหม่</a>
+      <a href="index.html" class="btn btn-dark">เพิ่ม</a>
     </div>
   </div>
 
   <script>
     async function loadPatients() {
-      const res = await fetch('http://localhost:8000/patients/');
+      const res = await fetch('http://localhost:8000/api/form/');
       const data = await res.json();
       const tbody = document.getElementById('patientTableBody');
       tbody.innerHTML = '';
       data.forEach(p => {
-        const row = `
-          <tr>
-            <td>${p.first_name}</td>
-            <td>${p.last_name}</td>
-            <td>${p.age}</td>
-            <td>${p.weight} kg</td>
-            <td>${p.height} cm</td>
-            <td>${p.allergies || '-'}</td>
-            <td>${p.diseases || '-'}</td>
-          </tr>
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${p.first_name}</td>
+          <td>${p.last_name}</td>
+          <td>${p.age}</td>
+          <td>${p.weight} kg</td>
+          <td>${p.height} cm</td>
+          <td>${p.allergies || '-'}</td>
+          <td>${p.diseases || '-'}</td>
+          <td><button class="btn btn-danger btn-sm" onclick="deletePatient(${p.id})">ลบ</button></td>
         `;
-        tbody.innerHTML += row;
+        tbody.appendChild(row);
       });
+    }
+
+    async function deletePatient(id) {
+      const confirmDelete = confirm("คุณแน่ใจหรือไม่ว่าต้องการลบข้อมูลผู้ป่วยนี้?");
+      if (!confirmDelete) return;
+
+      const res = await fetch(`http://localhost:8000/api/form/${id}`, {
+        method: 'DELETE'
+      });
+
+      if (res.ok) {
+        alert("✅ ลบข้อมูลเรียบร้อยแล้ว");
+        loadPatients();
+      } else {
+        alert("❌ ไม่สามารถลบข้อมูลได้");
+      }
     }
 
     loadPatients();
