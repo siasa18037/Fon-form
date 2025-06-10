@@ -10,3 +10,10 @@ def create_patient(db: Session, patient: schemas.PatientCreate):
 
 def get_patients(db: Session, skip: int = 0, limit: int = 10):
     return db.query(models.Patient).offset(skip).limit(limit).all()
+
+def delete_patient(db: Session, patient_id: int):
+    patient = db.query(models.Patient).filter(models.Patient.id == patient_id).first()
+    if patient:
+        db.delete(patient)
+        db.commit()
+    return patient
